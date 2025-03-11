@@ -1,0 +1,22 @@
+[Unit]
+Description=CodePush API Node.js Application
+After=network.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/code-push-server/api
+ExecStart=/home/ubuntu/.nvm/versions/node/v18.20.7/bin/node -r dotenv/config ./bin/script/server.js dotenv_config_path=.env dotenv_config_silent=true
+Restart=always
+EnvironmentFile=/home/ubuntu/code-push-server/api/.env
+
+# Set PATH to include Node.js and npm
+Environment="PATH=/home/ubuntu/.nvm/versions/node/v18.20.7/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="NVM_DIR=/home/ubuntu/.nvm"
+
+# Logging configuration
+StandardOutput=file:/home/ubuntu/code-push-server/api/codepush-api.log
+StandardError=file:/home/ubuntu/code-push-server/api/codepush-api-error.log
+
+[Install]
+WantedBy=multi-user.target

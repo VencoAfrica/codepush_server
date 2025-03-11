@@ -1,0 +1,22 @@
+[Unit]
+Description=Azurite - Local Azure Storage Emulator
+After=network.target
+
+[Service]
+ExecStart=/home/ubuntu/.nvm/versions/node/v18.20.7/bin/azurite --silent --location /home/ubuntu/Azurite/azurite --debug /home/ubuntu/Azurite/azurite/debug.log 
+Restart=always
+User=ubuntu
+Type=simple
+WorkingDirectory=/home/ubuntu/Azurite
+
+# Logging configuration
+StandardOutput=file:/home/ubuntu/Azurite/azurite-api.log
+StandardError=file:/home/ubuntu/Azurite/azurite-error.log
+
+# Set PATH to include Node.js and npm
+Environment="PATH=/home/ubuntu/.nvm/versions/node/v18.20.7/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+Environment="NVM_DIR=/home/ubuntu/.nvm"
+Environment="AZURITE_DISABLE_SIGNATURE_VALIDATION=true"
+
+[Install]
+WantedBy=multi-user.target

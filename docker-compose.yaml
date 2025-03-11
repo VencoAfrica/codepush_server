@@ -1,0 +1,26 @@
+services:
+  codepush_api_plus_azurite:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: codepush_api_plus_azurite
+    volumes:
+      - azurite-data:/data
+    env_file:
+      - ./api/.env
+    ports:
+      - "3000:3000"
+      - "10000:10000" 
+      - "10001:10001" 
+      - "10002:10002"
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  azurite-data:
+
+networks:
+  app-network:
+    driver: bridge
+

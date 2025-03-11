@@ -1,0 +1,29 @@
+**Installation and Configuration Steps for EC2**
+
+1. **Clone Repositories**  
+   - Clone the Azurite repository.  
+   - Clone the CodePush Server repository.  
+
+2. **Install Dependencies**  
+   - Install the latest Node.js version (currently 18.20.x).  
+   - Navigate to both the Azurite and CodePush Server api directories and run the following commands:  
+     ```sh
+     npm install
+     npm run build
+     ```
+
+3. **Configure Nginx for Reverse Proxy**  
+   - Set up Nginx to reverse proxy API and storage endpoints.
+   - Ensure proper routing and security configurations.
+
+4. **Create Systemd Services**  
+   - Create and configure systemd services for both Azurite and CodePush API.
+   - Enable and start the services to ensure they run on system boot.
+
+5. **Update Mobile App Configuration**  
+   - Change the download URL endpoint from `localhost` to the domain of the CodePush server in the mobile app code.
+
+6. **Final Verification**  
+   - Test API and storage endpoints to confirm successful configuration.
+   - Ensure the mobile app is fetching updates correctly from the configured domain.
+
