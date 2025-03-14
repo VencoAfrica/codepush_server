@@ -29,7 +29,7 @@ To launch the `codepush_api_plus_azurite` container, follow these steps:
 2. **Navigate to the Project Directory:**
 
    ```sh
-   cd /home/ubuntu/cz_mw_code_push_server
+   cd /home/ubuntu/codepush_server
    ```
 
 3. **Pull the Latest Code (If Changes Exist):**
