@@ -84,6 +84,61 @@ All API and storage services are reverse-proxied through Nginx and publicly acce
 
 ---
 
+## Handle Local Endpoint Challenges
+### Issue Summary
+
+When pushing release changes via the CodePush CLI, the files upload successfully as expected. However, when attempting to download these files from mobile applications, the CodePush API returns a URL in the following format:
+
+`http://localhost:10000/<blob-storage-path>`
+Since mobile applications cannot access the localhost, they fail to download the necessary files.
+
+Root Cause
+The issue arises because CodePush, when running in a local development environment with Azurite (a local Azure Storage emulator), automatically generates storage endpoints using the Azure SDK with UseDevelopmentStorage=true. This setting causes the CodePush API to return URLs pointing to localhost:10000, which are inaccessible to mobile clients.
+
+### Solution
+In this case, One way to solve is to go with the approach of replacing the localhost URL from the mobile application code.
+
+The following React Native code snippet demonstrates how to handle this issue by intercepting the downloadUrl from CodePush and replacing http://127.0.0.1:10000 with a valid external URL before downloading the update:
+
+```javascript
+const checkForCodePushUpdate = async () => {
+    try {
+      const update: RemotePackage | null = await codePush.checkForUpdate();
+
+      if (update) {
+        // Modify the URL if it points to the local Azurite storage
+        if (update.downloadUrl.includes('http://127.0.0.1:10000')) {
+          update.downloadUrl = update.downloadUrl.replace(
+            'http://127.0.0.1:10000',
+            'https://codepush.example.com/blob',
+          );
+        }
+        downloadAndInstallUpdate(update);
+      }
+    } catch (error) {
+      console.error('Error in CodePush sync:', error);
+    }
+};
+
+const downloadAndInstallUpdate = async (update: RemotePackage) => {
+    try {
+      if (update.failedInstall) {
+        codePush.clearUpdates();
+      }
+      const downloadedPackage = await update.download();
+
+      await downloadedPackage.install(codePush.InstallMode.IMMEDIATE);
+      reportCodePushInstall(downloadedPackage);
+    } catch (error) {
+      console.error('Error installing the update:', error);
+    }
+};
+```
+
+### Outcome
+
+With this fix in place, the CodePush updates will be downloaded successfully, ensuring that mobile applications can retrieve and install the latest changes without encountering inaccessible localhost URLs.
+
 ## Conclusion
 
 This setup ensures a seamless experience for hosting a self-managed CodePush service. With proper containerization and reverse proxy configurations, updates are efficiently managed and delivered to mobile applications.
