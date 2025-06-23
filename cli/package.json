@@ -4,7 +4,7 @@
   "description": "Management CLI for the CodePush service",
   "main": "./script/cli.js",
   "scripts": {
-    "start": "node ./bin/script/cli.js",
+    "codepush": "node ./bin/script/cli.js",
     "build": "tsc",
     "prettier": "prettier --write \"./**/*.ts\"",
     "lint": "npx eslint ./script/**/*.ts",
