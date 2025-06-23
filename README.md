@@ -134,15 +134,45 @@ const downloadAndInstallUpdate = async (update: RemotePackage) => {
     }
 };
 ```
-
 ### Outcome
 
 With this fix in place, the CodePush updates will be downloaded successfully, ensuring that mobile applications can retrieve and install the latest changes without encountering inaccessible localhost URLs.
 
+## Using the cli to connect to the server
+
+To connect to the CodePush server using the CLI, you need to set up the cli on your local machine. Follow these steps:
+
+Clone this repository to your local machine:
+
+change directory to the cli folder in the cloned repository:
+
+run npm install to install the necessary dependencies:
+
+```bash
+npm install .
+```
+
+run npm build to build the CLI:
+
+```bash
+npm run build .
+```
+
+Optionally, after building you can install the CLI globally to use it from anywhere:
+
+```bash
+npm install -g .
+```
+
+Now you can use the CodePush CLI to connect to your self-hosted server. 
+To connect to the server, use the following command:
+```bash
+npm run codepush -- register <server: url>
+```
+
+See the [CodePush CLI documentation](./cli/README.md) for more details on how to use the CLI commands.
+
+
 ## Conclusion
 
 This setup ensures a seamless experience for hosting a self-managed CodePush service. With proper containerization and reverse proxy configurations, updates are efficiently managed and delivered to mobile applications.
-
----
-
-**Maintainer:** Sajjad Talib -- DevOps Engineer -- sajjadtalib29@gmail.com
