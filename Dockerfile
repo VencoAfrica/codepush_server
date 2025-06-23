@@ -35,6 +35,7 @@ WORKDIR /usr/src/app
 
 # Install tini
 RUN apk add --no-cache tini
+RUN apk add --no-cache bash
 
 # Install azurite globally
 RUN npm install -g azurite
